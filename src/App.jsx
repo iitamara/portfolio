@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 
+import profilePhoto from "./assets/profilePhoto_placeholder.jpg";
+
 const TOOLBOX = ["JavaScript", "HTML", "CSS", "React", "Python", "Git", "TypeScript"];
 const LEARNING = ["Node.js", "Express", "SQL", "REST APIs"];
 
@@ -286,7 +288,14 @@ export default function App() {
             </div>
 
             <div className="aboutMedia">
-              <div className="photoPlaceholder" aria-label="Profile photo placeholder" />
+              <div className="photoWrap">
+                <img
+                  className="profilePhoto"
+                  src={profilePhoto}
+                  alt="placeholder image of my cat"
+                  loading="lazy"
+                />
+              </div>
               <div className="statusPill">{t.status}</div>
             </div>
           </div>
@@ -377,7 +386,7 @@ export default function App() {
               <h2>{t.contactHeading}</h2>
 
               <div className="contactLinks">
-                <div className="contactRow">
+                <div className="contactRow link">
                   <span className="iconBadge"><IconMail /></span>
                   <div className="contactText">
                     <div className="label">Email</div>
@@ -405,7 +414,6 @@ export default function App() {
 
             <div className="contactRight">
               <div className="formCard">
-                <h3 className="formTitle">{t.formHeading}</h3>
 
                 <form
                   onSubmit={(e) => {
@@ -451,7 +459,7 @@ export default function App() {
             </div>
 
             <div className="footerRight">
-              <span className="iconBadge" title="Email (not a link)">
+              <span className="iconBadge link" title="Email (not a link)">
                 <IconMail />
               </span>
 

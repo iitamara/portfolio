@@ -1,6 +1,5 @@
 /* ===== Theme variables ===== */
 :root[data-theme="dark"]{
-  /* darker, less purple background */
   --bg1:#0c0f17;
   --bg2:#151a28;
 
@@ -10,13 +9,11 @@
   --text: rgba(255,255,255,0.92);
   --muted: rgba(255,255,255,0.70);
 
-  /* accents stay purple-ish */
   --accentA:#977DFF;
   --accentB:#3b3039;
 
   --shadow: 0 18px 50px rgba(0,0,0,0.35);
 
-  /* solid modal background */
   --modalBg: #111525;
 
   --switchThumb: var(--accentA);
@@ -35,7 +32,6 @@
   --accentB:rgb(68, 47, 67);
   --shadow: 0 18px 50px rgba(30,18,30,0.16);
 
-  /* solid modal background */
   --modalBg: #ffdfec;
 
   --switchThumb: var(--accentB);
@@ -78,7 +74,6 @@ button{ font: inherit; }
   position: fixed;
   top: 14px;
 
-  /* match page centering exactly */
   left: 0;
   right: 0;
   width: min(980px, 92%);
@@ -144,10 +139,7 @@ button{ font: inherit; }
 .miniToggle .active{ color: var(--text); font-weight: 650; }
 .sepSlash{ opacity: 0.6; margin: 0 4px; }
 
-/* ===== Theme switch (slider) =====
-   Use this instead of the "Dark/Light" text button in JSX:
-   <button className="themeSwitch" role="switch" aria-checked={theme === "dark"} ... />
-*/
+/* ===== Theme Switch ===== */
 .themeSwitch{
   width: 58px;
   height: 30px;
@@ -260,6 +252,7 @@ button{ font: inherit; }
 .hero{
   text-align: center;
   padding: 54px 0 28px;
+  margin-bottom: 60px;
 }
 
 .locationPill{
@@ -353,16 +346,45 @@ button{ font: inherit; }
   gap: 10px;
 }
 
-.photoPlaceholder{
+.photoWrap{
+  position: relative;
   width: 100%;
-  aspect-ratio: 4/5;
-  border-radius: 18px;
-  border: 1px solid var(--border);
-  background:
-    linear-gradient(135deg,
-      color-mix(in srgb, var(--surface2) 80%, transparent),
-      color-mix(in srgb, var(--surface) 60%, transparent));
-  box-shadow: var(--shadow);
+  max-width: 260px;
+  margin: 30px auto;      /* <-- more space around the image */
+  isolation: isolate;
+  aspect-ratio: 1 / 1;
+  border-radius: 999px;    /* or 999px if using circle */
+}
+
+/* Glow behind the photo */
+.photoWrap::before{
+  content: "";
+  position: absolute;
+  inset: -40px;           /* <-- bigger halo area */
+  border-radius: inherit;
+
+  background: radial-gradient(
+    circle at 50% 35%,
+    color-mix(in srgb, var(--accentA) 55%, transparent) 0%,
+    color-mix(in srgb, var(--accentA) 35%, transparent) 28%,
+    color-mix(in srgb, var(--accentA) 18%, transparent) 52%,
+    transparent 74%,
+    transparent 100%
+  );
+
+  filter: blur(50px);     /* <-- softer edge */
+  opacity: 0.8;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.profilePhoto{
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: inherit; /* matches wrapper shape */
+  object-fit: cover;
+  margin-bottom: 60px;
 }
 
 .statusPill{
@@ -401,6 +423,19 @@ button{ font: inherit; }
 .toolCard.alt:hover{
   border-color: color-mix(in srgb, var(--accentA) 65%, var(--border));
   box-shadow: 0 14px 34px color-mix(in srgb, var(--accentA) 18%, transparent);
+}
+
+/* Center headings ONLY in the tools section */
+#tools .sectionHeader{
+  text-align: center;
+  margin-bottom: 40px; /* more space before the grid */
+  margin-top: 40px;
+}
+
+/* The smaller header ("Currently learning") also needs more breathing room */
+#tools .sectionHeader.small{
+  margin-top: 60px;
+  margin-bottom: 40px;
 }
 
 /* ===== Portfolio ===== */
@@ -484,6 +519,7 @@ button{ font: inherit; }
   grid-template-columns: 1fr 1fr;
   gap: 18px;
   align-items: start;
+  margin: 30px 0;
 }
 
 .contactLeft h2{
@@ -493,27 +529,26 @@ button{ font: inherit; }
 .contactLinks{
   display:grid;
   gap: 10px;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 .contactRow{
   display:flex;
-  gap: 12px;
+  gap: 16px;
   align-items: center;
   padding: 12px 0;
   border: none;
 }
 .contactRow.link:hover .value,
-.contactRow.link:hover .label{
-  color: var(--accentA);
-}
-
+.contactRow.link:hover .label,
 .contactRow.link:hover .icon{
   color: var(--accentA);
 }
 
 .iconBadge{
-  width: 40px;
-  height: 40px;
+  width: 52px;
+  height: 52px;
   border-radius: 14px;
   border: 1px solid var(--border);
   background: color-mix(in srgb, var(--surface2) 65%, transparent);
@@ -524,18 +559,22 @@ button{ font: inherit; }
 }
 
 .icon{
-  width: 20px;
-  height: 20px;
+  width: 26px;
+  height: 26px;
   color: var(--text);
   opacity: 0.9;
 }
 
+.contactRow.link:hover .iconBadge{
+  border-color: color-mix(in srgb, var(--accentA) 60%, var(--border));
+}
+
 .contactText .label{
-  font-size: 12px;
+  font-size: 14px;
   color: var(--muted);
 }
 .contactText .value{
-  font-size: 14px;
+  font-size: 16px;
   color: var(--text);
   opacity: 0.9;
 }
@@ -545,36 +584,46 @@ button{ font: inherit; }
   border: 1px solid var(--border);
   border-radius: 18px;
   background: color-mix(in srgb, var(--surface2) 70%, transparent);
-  padding: 14px;
+  padding: 18px;
   box-shadow: var(--shadow);
 }
-.formTitle{ margin: 0 0 10px; font-size: 16px; }
 
 .field{
   display: grid;
-  gap: 6px;
-  margin-bottom: 12px;
+  gap: 8px;
+  margin-bottom: 25px;
 }
 .field span{
-  font-size: 12px;
+  font-size: 18px;
   color: var(--muted);
 }
 input, textarea{
   border-radius: 14px;
   border: 1px solid var(--border);
-  padding: 10px 12px;
+  padding: 15px 20px;
   background: color-mix(in srgb, var(--surface) 55%, transparent);
   color: var(--text);
   outline: none;
+  font-size: 14px;
 }
 input:focus, textarea:focus{
-  border-color: color-mix(in srgb, var(--accentA) 60%, var(--border));
+  border-color: color-mix(in srgb, var(--accentA) 90%, var(--border));
   background: color-mix(in srgb, var(--surface2) 70%, transparent);
 }
 
 textarea{
   resize: vertical;     /* disables horizontal resizing */
   min-height: 100px;    /* prevents making it too small */
+}
+
+.formCard .btn{
+  background: color-mix(in srgb, var(--surface2) 92%, transparent);
+  border-color: color-mix(in srgb, var(--border) 80%, transparent);
+}
+
+.formCard .btn:hover{
+  background: color-mix(in srgb, var(--accentA) 45%, transparent);
+  border-color: color-mix(in srgb, var(--accentA) 70%, var(--border));
 }
 
 /* ===== Footer ===== */
@@ -593,6 +642,7 @@ textarea{
   justify-content: space-between;
   gap: 12px;
 }
+
 .footerName{ font-weight: 750; }
 .footerSub{ color: var(--muted); font-size: 13px; margin-top: 4px; }
 
@@ -603,6 +653,20 @@ textarea{
 }
 .footerRight .iconBadge.link:hover{
   border-color: color-mix(in srgb, var(--accentA) 60%, var(--border));
+}
+
+.footerRight .link:hover .icon{
+  color: var(--accentA);
+}
+
+.footerRight .iconBadge{
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+}
+.footerRight .icon{
+  width: 20px;
+  height: 20px;
 }
 
 /* ===== Modal ===== */
