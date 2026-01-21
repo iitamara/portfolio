@@ -78,7 +78,7 @@ const STRINGS = {
   },
 };
 
-function useIsMobile(breakpointPx = 860, onDesktop) {
+function useIsMobile(breakpointPx = 640, onDesktop) {
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < breakpointPx);
 
   useEffect(() => {
@@ -136,7 +136,7 @@ function IconGitHub() {
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const isMobile = useIsMobile(860, () => setMenuOpen(false));
+  const isMobile = useIsMobile(640, () => setMenuOpen(false));
 
   const [lang, setLang] = useState(() => localStorage.getItem("lang") || "en");
   const t = useMemo(() => STRINGS[lang] ?? STRINGS.en, [lang]);
@@ -271,21 +271,21 @@ export default function App() {
 
         {/* ABOUT */}
         <section className="section about" id="about">
-          <div className="sectionHeader">
-            <h2>{t.aboutHeading}</h2>
-          </div>
+            <div className="aboutGrid">
+              <div className="sectionHeader">
+                <h2>{t.aboutHeading}</h2>
+              </div>
 
-          <div className="aboutGrid">
-            <div className="aboutText">
-              <p className="lead">
-                Write 3–5 sentences about what I'm enjoy building, what I'm learning, and what kind of internship I'm aiming for.
-              </p>
+              <div className="aboutText">
+                <p className="lead">
+                  Write 3–5 sentences about what I'm enjoy building, what I'm learning, and what kind of internship I'm aiming for.
+                </p>
 
-              <h3 className="subHeading">{t.educationHeading}</h3>
-              <ul className="list">
-                <li>{t.educationItem}</li>
-              </ul>
-            </div>
+                <h3 className="subHeading">{t.educationHeading}</h3>
+                <ul className="list">
+                  <li>{t.educationItem}</li>
+                </ul>
+              </div>
 
             <div className="aboutMedia">
               <div className="photoWrap">
@@ -480,7 +480,7 @@ export default function App() {
         <div className="modalOverlay" role="dialog" aria-modal="true" aria-label="Project details">
           <div className="modalCard">
             <button className="modalClose" type="button" onClick={() => setActiveProjectId(null)} aria-label="Close">
-              ×
+              ✕
             </button>
 
             <div className="projectImage modalImage" aria-hidden="true" />
