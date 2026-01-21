@@ -1,4 +1,6 @@
-/* ===== Theme variables ===== */
+/* =========================
+   THEME VARIABLES
+========================= */
 :root[data-theme="dark"]{
   --bg1:#0c0f17;
   --bg2:#151a28;
@@ -15,36 +17,46 @@
   --shadow: 0 18px 50px rgba(0,0,0,0.35);
 
   --modalBg: #111525;
-
   --switchThumb: var(--accentA);
+
+  --spot1: rgba(255,255,255,0.08);
+  --spot2: rgba(151,125,255,0.10);
 }
 
 :root[data-theme="light"]{
-  --bg1:#ece7ed;
-  --bg2:#d583a2;
+  --bg1:#fffafb;
+  --bg2:#f7e9f0;
 
-  --surface: rgba(255,255,255,0.55);
-  --surface2: rgba(255,255,255,0.70);
-  --border: rgba(98,75,97,0.25);
+  --surface: rgba(255,255,255,0.72);
+  --surface2: rgba(255,255,255,0.88);
+
+  --border: rgba(213,131,162,0.34);
+
   --text: rgb(68, 47, 67);
   --muted: rgba(25,18,25,0.62);
+
   --accentA:#d583a2;
   --accentB:rgb(68, 47, 67);
-  --shadow: 0 18px 50px rgba(30,18,30,0.16);
 
-  --modalBg: #ffdfec;
+  --shadow: 0 18px 50px rgba(30,18,30,0.12);
+
+  --modalBg: #fff6fa;
 
   --switchThumb: var(--accentB);
+
+  --spot1: rgba(255,255,255,0.70);
+  --spot2: rgba(213,131,162,0.16);
 }
 
-/* ===== Base ===== */
+/* =========================
+   BASE
+========================= */
 *{ box-sizing:border-box; }
 html{ scroll-behavior:smooth; }
 body{
   margin:0;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   color: var(--text);
-  justify-content: center;
 }
 
 a{ color: inherit; text-decoration: none; }
@@ -55,30 +67,32 @@ button{ font: inherit; }
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(1200px 520px at 20% 10%, rgba(255,255,255,0.08), transparent 60%),
-    radial-gradient(900px 420px at 85% 15%, rgba(151,125,255,0.10), transparent 62%),
+    radial-gradient(1200px 520px at 20% 10%, var(--spot1), transparent 60%),
+    radial-gradient(900px 420px at 85% 15%, var(--spot2), transparent 62%),
     linear-gradient(160deg, var(--bg1), var(--bg2));
 }
 
 .page{
   width: min(980px, 92%);
   margin: 0 auto;
-  padding-top: 92px; /* room for floating nav */
+  padding-top: 92px;
 }
 
-/* Give anchors breathing room under fixed nav */
-.section{ scroll-margin-top: 110px; }
+.section{
+  padding: 60px 0;
+  scroll-margin-top: 110px;
+}
 
-/* ===== Floating Nav ===== */
+/* =========================
+   NAV (FLOATING)
+========================= */
 .nav{
   position: fixed;
   top: 14px;
-
   left: 0;
   right: 0;
   width: min(980px, 92%);
   margin: 0 auto;
-
   z-index: 50;
 }
 
@@ -94,8 +108,10 @@ button{ font: inherit; }
 .navRow{
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
   padding: 10px 12px;
+  flex-wrap: nowrap;
 }
 
 .navGroup{
@@ -103,6 +119,7 @@ button{ font: inherit; }
   align-items: center;
   gap: 8px;
   min-width: 0;
+  flex-wrap: nowrap;
 }
 .navGroup.left{ flex: 1; }
 .navGroup.right{ flex: 1; justify-content: flex-end; }
@@ -124,6 +141,7 @@ button{ font: inherit; }
   background: var(--border);
   border-radius: 999px;
   margin: 0 4px;
+  flex: 0 0 auto;
 }
 
 .miniToggle{
@@ -133,13 +151,17 @@ button{ font: inherit; }
   padding: 8px 10px;
   border-radius: 12px;
   cursor: pointer;
+  flex: 0 0 auto;
+  flex-shrink: 0;
 }
-.miniToggle:hover{ color: var(--text); }
-
+.miniToggle:hover{
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--accentA) 60%, var(--border))
+}
 .miniToggle .active{ color: var(--text); font-weight: 650; }
 .sepSlash{ opacity: 0.6; margin: 0 4px; }
 
-/* ===== Theme Switch ===== */
+/* Theme switch */
 .themeSwitch{
   width: 58px;
   height: 30px;
@@ -149,34 +171,37 @@ button{ font: inherit; }
   position: relative;
   padding: 0 9px;
   cursor: pointer;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   overflow: hidden;
+  flex: 0 0 auto;
+  flex-shrink: 0;
 }
 
-/* thumb */
 .themeSwitch::after{
   content: "";
   position: absolute;
-  top: 3px;
+  top: 50%;
   left: 3px;
   width: 24px;
   height: 24px;
   border-radius: 999px;
   background: var(--switchThumb);
+  transform: translateY(-50%);
   transition: transform 160ms ease;
   z-index: 1;
 }
-
 .themeSwitch[aria-checked="true"]::after{
-  transform: translateX(28px);
+  transform: translate(28px, -50%);
 }
 
 .themeIcon{
   position: relative;
   z-index: 2;
-  font-size: 13px;
+  font-size: 12px;
   line-height: 1;
   opacity: 0.55;
   transition: opacity 160ms ease;
@@ -187,14 +212,14 @@ button{ font: inherit; }
   border-color: color-mix(in srgb, var(--accentA) 60%, var(--border));
 }
 
-/* Burger */
+/* Burger button */
 .burger{
   display: none;
   margin-left: auto;
   border: 1px solid var(--border);
   background: color-mix(in srgb, var(--surface) 70%, transparent);
   border-radius: 12px;
-  padding: 10px 10px;
+  padding: 10px;
   cursor: pointer;
 }
 .burger span{
@@ -207,12 +232,16 @@ button{ font: inherit; }
   border-radius: 999px;
 }
 
-/* Mobile menu panel */
+.burger:hover{
+  border-color: color-mix(in srgb, var(--accentA) 60%, var(--border));
+}
+
+/* Mobile menu */
 .mobileMenu{
   border-top: 1px solid var(--border);
-  padding: 10px 12px 12px;
+  padding: 18px 15px;
   display: grid;
-  gap: 8px;
+  gap: 10px;
 }
 .mobileRow{
   display:flex;
@@ -225,10 +254,17 @@ button{ font: inherit; }
   background: color-mix(in srgb, var(--surface) 55%, transparent);
   border: 1px solid var(--border);
   color: var(--text);
+  transition: border-color 160ms ease, background 160ms ease, color 160ms ease;
 }
-.mobileLink:hover{ background: color-mix(in srgb, var(--surface2) 75%, transparent); }
+.mobileLink:hover{
+  border-color: color-mix(in srgb, var(--accentA) 60%, var(--border));
+  background: color-mix(in srgb, var(--surface2) 75%, transparent);
+  color: var(--accentA);
+}
 
-/* ===== Buttons ===== */
+/* =========================
+   BUTTONS
+========================= */
 .btn, .btnSecondary{
   border-radius: 14px;
   border: 1px solid var(--border);
@@ -237,18 +273,14 @@ button{ font: inherit; }
   color: var(--text);
   background: color-mix(in srgb, var(--surface2) 70%, transparent);
 }
-.btn:hover{
-  background: color-mix(in srgb, var(--surface2) 88%, transparent);
-}
-.btnSecondary{
-  background: transparent;
-}
-.btnSecondary:hover{
-  background: color-mix(in srgb, var(--surface) 70%, transparent);
-}
+.btn:hover{ background: color-mix(in srgb, var(--surface2) 88%, transparent); }
+.btnSecondary{ background: transparent; }
+.btnSecondary:hover{ background: color-mix(in srgb, var(--surface) 70%, transparent); }
 .btnFull{ width: 100%; }
 
-/* ===== Hero ===== */
+/* =========================
+   HERO
+========================= */
 .hero{
   text-align: center;
   padding: 54px 0 28px;
@@ -272,119 +304,115 @@ button{ font: inherit; }
   font-size: clamp(34px, 4.5vw, 56px);
   letter-spacing: -0.03em;
 }
-
 .heroRole{
-  margin: 0 0 14px;
+  margin: 0 0 20px;
   font-weight: 650;
   color: color-mix(in srgb, var(--text) 92%, transparent);
 }
-
 .heroDesc{
   margin: 0 auto;
   max-width: 65ch;
   color: var(--muted);
   line-height: 1.65;
 }
-
 .heroCta{
-  margin-top: 18px;
+  margin-top: 25px;
   display:flex;
   justify-content:center;
 }
 
-/* ===== Sections ===== */
-.section{
-  padding: 34px 0;
-}
-
+/* =========================
+   SECTION HEADERS
+========================= */
 .sectionHeader{
-  margin-bottom: 18px;
+  margin: 30px 0 15px 0;
   text-align: left;
 }
 .sectionHeader.small{ margin-top: 12px; }
+
 .sectionHeader h2{
   margin: 0;
-  font-size: 22px;
+  font-size: 28px;
 }
 .sectionHeader h3{
   margin: 0;
-  font-size: 18px;
-  color: var(--text);
+  font-size: 22px;
 }
-
-.sectionSpacer{ height: 12px; }
 
 .lead{
   color: var(--muted);
   line-height: 1.7;
   margin-top: 0;
 }
-
 .subHeading{
   margin: 18px 0 10px;
-  font-size: 16px;
+  font-size: 18px;
 }
-
 .list{
   margin: 0;
   padding-left: 18px;
   color: var(--muted);
 }
 
-/* ===== About ===== */
+/* =========================
+   ABOUT
+========================= */
 .aboutGrid{
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
   gap: 22px;
   align-items: start;
+
+  grid-template-areas:
+    "header header"
+    "text   media";
 }
+
+.aboutHeader{ grid-area: header; }
+.aboutText{ grid-area: text; }
 
 .aboutMedia{
   display:flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  grid-area: media;
 }
 
 .photoWrap{
   position: relative;
   width: 100%;
   max-width: 260px;
-  margin: 30px auto;      /* <-- more space around the image */
+  margin: 30px auto;
   isolation: isolate;
   aspect-ratio: 1 / 1;
-  border-radius: 999px;    /* or 999px if using circle */
+  border-radius: 999px;
 }
 
-/* Glow behind the photo */
 .photoWrap::before{
   content: "";
   position: absolute;
-  inset: -40px;           /* <-- bigger halo area */
+  inset: -25px;
   border-radius: inherit;
-
   background: radial-gradient(
-    circle at 50% 35%,
+    circle at 50% 50%,
     color-mix(in srgb, var(--accentA) 55%, transparent) 0%,
     color-mix(in srgb, var(--accentA) 35%, transparent) 28%,
     color-mix(in srgb, var(--accentA) 18%, transparent) 52%,
     transparent 74%,
     transparent 100%
   );
-
-  filter: blur(50px);     /* <-- softer edge */
+  filter: blur(50px);
   opacity: 0.8;
   z-index: -1;
-  pointer-events: none;
 }
 
 .profilePhoto{
   width: 100%;
   height: 100%;
   display: block;
-  border-radius: inherit; /* matches wrapper shape */
+  border-radius: inherit;
   object-fit: cover;
-  margin-bottom: 60px;
 }
 
 .statusPill{
@@ -395,9 +423,20 @@ button{ font: inherit; }
   border: 1px solid var(--border);
   background: color-mix(in srgb, var(--surface) 65%, transparent);
   color: var(--muted);
+  margin: 20px 0 0;
 }
 
-/* ===== Tools ===== */
+/* =========================
+   TOOLS
+========================= */
+#tools .sectionHeader{
+  text-align: center;
+  margin: 40px 0;
+}
+#tools .sectionHeader.small{
+  margin: 60px 0 40px;
+}
+
 .toolGrid{
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -420,25 +459,10 @@ button{ font: inherit; }
   border-color: color-mix(in srgb, var(--accentA) 65%, var(--border));
   box-shadow: 0 14px 34px color-mix(in srgb, var(--accentA) 18%, transparent);
 }
-.toolCard.alt:hover{
-  border-color: color-mix(in srgb, var(--accentA) 65%, var(--border));
-  box-shadow: 0 14px 34px color-mix(in srgb, var(--accentA) 18%, transparent);
-}
 
-/* Center headings ONLY in the tools section */
-#tools .sectionHeader{
-  text-align: center;
-  margin-bottom: 40px; /* more space before the grid */
-  margin-top: 40px;
-}
-
-/* The smaller header ("Currently learning") also needs more breathing room */
-#tools .sectionHeader.small{
-  margin-top: 60px;
-  margin-bottom: 40px;
-}
-
-/* ===== Portfolio ===== */
+/* =========================
+   PORTFOLIO
+========================= */
 .projectGrid{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -453,10 +477,11 @@ button{ font: inherit; }
   box-shadow: var(--shadow);
   display: grid;
   gap: 10px;
-  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+  transition: transform 240ms cubic-bezier(0.34, -0.25, 0.2, 1.35), background 160ms ease, border-color 160ms ease;
+  will-change: transform;
 }
 .projectCard:hover{
-  transform: translateY(-2px);
+  transform: translateY(-6px) scale(1.02);
   background: color-mix(in srgb, var(--surface2) 70%, transparent);
   border-color: color-mix(in srgb, var(--accentA) 55%, var(--border));
 }
@@ -466,10 +491,11 @@ button{ font: inherit; }
   height: 150px;
   border-radius: 14px;
   border: 1px solid var(--border);
-  background:
-    linear-gradient(135deg,
-      color-mix(in srgb, var(--surface2) 85%, transparent),
-      color-mix(in srgb, var(--surface) 55%, transparent));
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--surface2) 85%, transparent),
+    color-mix(in srgb, var(--surface) 55%, transparent)
+  );
 }
 
 .projectTitle{ margin: 0; font-size: 16px; }
@@ -485,22 +511,12 @@ button{ font: inherit; }
   background: transparent;
 }
 
-.modalCard .tag{
-  border-color: color-mix(in srgb, var(--accentA) 60%, var(--border));
-  color: color-mix(in srgb, var(--text) 92%, var(--accentA));
-  background: color-mix(in srgb, var(--accentA) 10%, transparent);
-}
-
-/* Mobile title-only list */
-.projectListMobile{
-  display: grid;
-  gap: 10px;
-}
+.projectListMobile{ display: grid; gap: 10px; }
 .projectTitleOnly{
   width: 100%;
   border-radius: 16px;
   border: 1px solid var(--border);
-  padding: 14px 14px;
+  padding: 14px;
   background: color-mix(in srgb, var(--surface) 60%, transparent);
   color: var(--text);
   display:flex;
@@ -513,7 +529,9 @@ button{ font: inherit; }
 }
 .chev{ opacity: 0.7; font-size: 18px; }
 
-/* ===== Contact ===== */
+/* =========================
+   CONTACT
+========================= */
 .contactGrid{
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -522,15 +540,10 @@ button{ font: inherit; }
   margin: 30px 0;
 }
 
-.contactLeft h2{
-  margin: 0 0 14px;
-}
-
 .contactLinks{
   display:grid;
   gap: 10px;
-  margin-top: 30px;
-  margin-bottom: 30px;
+  margin: 30px 0;
 }
 
 .contactRow{
@@ -540,8 +553,9 @@ button{ font: inherit; }
   padding: 12px 0;
   border: none;
 }
-.contactRow.link:hover .value,
+
 .contactRow.link:hover .label,
+.contactRow.link:hover .value,
 .contactRow.link:hover .icon{
   color: var(--accentA);
 }
@@ -557,14 +571,12 @@ button{ font: inherit; }
   justify-content:center;
   flex: 0 0 auto;
 }
-
 .icon{
   width: 26px;
   height: 26px;
   color: var(--text);
   opacity: 0.9;
 }
-
 .contactRow.link:hover .iconBadge{
   border-color: color-mix(in srgb, var(--accentA) 60%, var(--border));
 }
@@ -579,7 +591,7 @@ button{ font: inherit; }
   opacity: 0.9;
 }
 
-/* Form card */
+/* Form */
 .formCard{
   border: 1px solid var(--border);
   border-radius: 18px;
@@ -597,6 +609,7 @@ button{ font: inherit; }
   font-size: 18px;
   color: var(--muted);
 }
+
 input, textarea{
   border-radius: 14px;
   border: 1px solid var(--border);
@@ -606,32 +619,35 @@ input, textarea{
   outline: none;
   font-size: 14px;
 }
+
 input:focus, textarea:focus{
   border-color: color-mix(in srgb, var(--accentA) 90%, var(--border));
   background: color-mix(in srgb, var(--surface2) 70%, transparent);
+  outline-offset: 2px;
 }
 
 textarea{
-  resize: vertical;     /* disables horizontal resizing */
-  min-height: 100px;    /* prevents making it too small */
+  resize: vertical;
+  min-height: 100px;
 }
 
 .formCard .btn{
   background: color-mix(in srgb, var(--surface2) 92%, transparent);
   border-color: color-mix(in srgb, var(--border) 80%, transparent);
 }
-
 .formCard .btn:hover{
   background: color-mix(in srgb, var(--accentA) 45%, transparent);
   border-color: color-mix(in srgb, var(--accentA) 70%, var(--border));
 }
 
-/* ===== Footer ===== */
+/* =========================
+   FOOTER
+========================= */
 .footer{
-  padding: 26px 0 44px;
-  margin-top: 10px;
   width: 100%;
   border-top: 1px solid var(--border);
+  padding: 26px 0 44px;
+  margin-top: 10px;
 }
 
 .footerInner{
@@ -651,14 +667,6 @@ textarea{
   gap: 10px;
   align-items:center;
 }
-.footerRight .iconBadge.link:hover{
-  border-color: color-mix(in srgb, var(--accentA) 60%, var(--border));
-}
-
-.footerRight .link:hover .icon{
-  color: var(--accentA);
-}
-
 .footerRight .iconBadge{
   width: 40px;
   height: 40px;
@@ -668,8 +676,14 @@ textarea{
   width: 20px;
   height: 20px;
 }
+.footerRight .iconBadge.link:hover{
+  border-color: color-mix(in srgb, var(--accentA) 60%, var(--border));
+}
+.footerRight .link:hover .icon{ color: var(--accentA); }
 
-/* ===== Modal ===== */
+/* =========================
+   MODAL
+========================= */
 .modalOverlay{
   position: fixed;
   inset: 0;
@@ -685,7 +699,6 @@ textarea{
   border: none;
 }
 
-/* solid, not translucent */
 .modalCard{
   position: relative;
   width: min(520px, 92%);
@@ -698,6 +711,7 @@ textarea{
   gap: 10px;
   z-index: 1;
 }
+
 .modalClose{
   position: absolute;
   top: 10px;
@@ -705,16 +719,19 @@ textarea{
 
   width: 40px;
   height: 40px;
-  border-radius: 14px;
+  border-radius: 12px;
+
   border: 1px solid var(--border);
-  background: color-mix(in srgb, var(--surface2) 85%, var(--modalBg));
+  background: color-mix(in srgb, var(--modalBg) 88%, var(--surface2));
   color: var(--text);
 
   display: grid;
-  place-items: center; /* centers the X */
-  line-height: 0;
-  font-size: 22px;
-  font-weight: 600;
+  place-items: center;
+
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0;
 
   cursor: pointer;
   transition: border-color 160ms ease, transform 160ms ease, background 160ms ease;
@@ -722,53 +739,145 @@ textarea{
 
 .modalClose:hover{
   border-color: color-mix(in srgb, var(--accentA) 60%, var(--border));
-  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--modalBg) 78%, var(--accentA));
 }
+
 .modalImage{ height: 170px; }
 
-/* ===== Responsive ===== */
+.modalCard .tag{
+  border-color: color-mix(in srgb, var(--accentA) 60%, var(--border));
+  color: color-mix(in srgb, var(--text) 92%, var(--accentA));
+  background: color-mix(in srgb, var(--accentA) 10%, transparent);
+  margin: 5px;;
+}
+
+/* =========================
+   INTERACTIONS (BOUNCE)
+========================= */
+@media (hover: hover) and (pointer: fine){
+  .navLink{
+    transition: transform 180ms var(--ease-bounce), background 160ms ease, color 160ms ease;
+    will-change: transform;
+  }
+  .navLink:hover{ transform: translateY(-2px); }
+  .navLink:active{ transform: translateY(0px); }
+
+  .btn, .btnSecondary{
+    transition: transform 200ms var(--ease-bounce), background 160ms ease, border-color 160ms ease, color 160ms ease;
+    will-change: transform;
+  }
+  .btn:hover, .btnSecondary:hover{ transform: translateY(-2px) scale(1.01); }
+  .btn:active, .btnSecondary:active{ transform: translateY(0px) scale(0.98); }
+
+  .projectTitleOnly{
+    transition: transform 220ms var(--ease-bounce), border-color 160ms ease, background 160ms ease, color 160ms ease;
+    will-change: transform;
+  }
+  .projectTitleOnly:hover{ transform: translateY(-3px) scale(1.01); }
+  .projectTitleOnly:active{ transform: translateY(0px) scale(0.985); }
+
+  .mobileLink{
+    transition: transform 200ms var(--ease-bounce), border-color 160ms ease, background 160ms ease, color 160ms ease;
+    will-change: transform;
+  }
+  .mobileLink:hover{ transform: translateY(-1px); }
+  .mobileLink:active{ transform: translateY(0px) scale(0.98); }
+
+  .footerRight .iconBadge{
+    transition: transform 200ms var(--ease-bounce), border-color 160ms ease, background 160ms ease;
+    will-change: transform;
+  }
+  .footerRight .iconBadge:hover{ transform: translateY(-2px) scale(1.0); }
+  .footerRight .iconBadge:active{ transform: translateY(0px) scale(0.90); }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .navLink,
+  .btn, .btnSecondary, .miniToggle, .themeSwitch,
+  .projectCard,
+  .projectTitleOnly,
+  .mobileLink,
+  .footerRight .iconBadge{
+    transition: none !important;
+    transform: none !important;
+  }
+
+  html{ scroll-behavior: auto; }
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
 @media (max-width: 860px){
   .page{ padding-top: 86px; }
+
+  .toolGrid{ grid-template-columns: repeat(2, 1fr); }
+  .aboutGrid{
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "media"
+      "header"
+      "text";
+  }
+  .aboutHeader{
+    text-align: center;
+    margin-top: 8px;
+    margin-bottom: 14px;
+  }
+
+  .contactGrid{ grid-template-columns: 1fr; }
+
+  .footerInner{
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .footerRight{ justify-content: center; }
+}
+
+@media (max-width: 760px){
+  .navRow{ gap: 8px; }
+  .navGroup{ gap: 6px; }
+  .navLink{ padding: 8px 8px; }
+  .vSep{ margin: 0 2px; }
+}
+
+@media (max-width: 640px){
+  .section{
+  padding: 30px 0;
+  }
+
   .navCenter{ display:none; }
-    .nav{
+  .navGroup{ display:none; }
+  .burger{ display:block; margin-left:auto; }
+
+  .nav{
     width: auto;
     left: auto;
     right: 14px;
     margin: 0;
   }
 
+  .navRow{ padding: 10px; gap: 0; }
+
   .navInner{
     border-radius: 16px;
-    overflow: visible; /* so menu can drop down nicely */
+    overflow: visible;
   }
 
-  .navRow{
-    padding: 10px;
-    gap: 0;
+  .mobileMenu{
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: min(180px, calc(100vw - 28px));
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--modalBg) 97%, transparent);
+    backdrop-filter: blur(18px);
+    box-shadow: var(--shadow);
   }
 
-  .navGroup{ display:none; }
-  .burger{ display:block; margin-left:auto; }
-
-  .toolGrid{ grid-template-columns: repeat(2, 1fr); }
-
-  .aboutGrid{
-    grid-template-columns: 1fr;
-  }
-  /* image above text on mobile */
-  .aboutMedia{ order: -1; }
-
-  .contactGrid{
-    grid-template-columns: 1fr;
-  }
-
-  .footerInner{
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  }
-  
-  .footerRight{
-  justify-content: center;
-  }
+  .page{ padding-top: 40px; }
+  .hero{ padding: 38px 0 22px; }
 }
